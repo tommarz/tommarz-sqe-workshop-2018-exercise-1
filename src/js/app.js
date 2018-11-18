@@ -5,16 +5,14 @@ $(document).ready(function () {
     $('#codeSubmissionButton').click(() => {
         let codeToParse = $('#codePlaceholder').val();
         let parsedCode = parseCode(codeToParse);
-        // console.log(JSON.stringify(parsedCode, null, 2));
         let records = ast_handler(parsedCode);
-        // console.log(records);
         let table = $('#table');
         table.empty();
-        table.append(makeTableHTML(records));
+        table.append(makeHTMLTable(records));
     });
 });
 
-function makeTableHTML(myArray) {
+function makeHTMLTable(myArray) {
     let result = '<table border=1>';
     let indexes = ['line', 'type', 'name', 'cond', 'val'];
     result += '<thead><tr><th>Line</th><th>Type</th><th>Name</th><th>Condition</th><th>Value</th></tr></thead>';

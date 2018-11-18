@@ -89,4 +89,8 @@ function block_stmnt_handler(block) {
     block.body.forEach(node => node_handler(node));
 }
 
+// function update_expr_handler(node) {
+//     records.push(new Record(node.loc.start.line, node.type, ))
+// }
+
 export {parseCode, ast_handler, node_to_string};
