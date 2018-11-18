@@ -5,7 +5,9 @@ $(document).ready(function () {
     $('#codeSubmissionButton').click(() => {
         let codeToParse = $('#codePlaceholder').val();
         let parsedCode = parseCode(codeToParse);
+        // console.log(JSON.stringify(parsedCode, null, 2));
         let records = ast_handler(parsedCode);
+        // console.log(records);
         let table = $('#table');
         table.empty();
         table.append(makeTableHTML(records));

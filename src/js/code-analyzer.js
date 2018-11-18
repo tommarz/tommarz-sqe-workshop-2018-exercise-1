@@ -17,18 +17,14 @@ function Record(line, type, name, cond, val) {
 
 let records;
 
-let typeToHandlerMap = { 'Identifier' : identifier_handler, 'AssignmentExpression': assignment_expr_handler,
+let typeToHandlerMap = {'AssignmentExpression': assignment_expr_handler,
     'FunctionDeclaration' : func_decl_handler, 'VariableDeclaration' : var_decl_handler, 'IfStatement' : if_stmnt_handler,
     'WhileStatement': while_stmnt_handler, 'ForStatement':for_stmnt_handler, 'ReturnStatement' : return_stmnt_handler,
     'BlockStatement' : block_stmnt_handler, 'ExpressionStatement':expr_stmnt_handler};
 
-// function get_node_line(node) {
-//     return node.loc.start.line;
-// }
-
 function ast_handler(ast) {
     records = [];
-    ast.type === 'Program' ? Array.from(ast.body).forEach((node) => node_handler(node)) : null;
+    Array.from(ast.body).forEach((node) => node_handler(node));
     return records;
 }
 
@@ -37,9 +33,9 @@ function node_handler(node) {
     handler ? handler(node) : null;
 }
 
-function identifier_handler(node) {
-    records.push(new Record(node.loc.start.line, node.type, node.name, null, null));
-}
+// function identifier_handler(node) {
+//     records.push(new Record(node.loc.start.line, node.type, node.name, null, null));
+// }
 
 function func_decl_handler(node) {
     records.push(new Record(node.loc.start.line, node.type, node.id.name, null, null));
@@ -54,15 +50,10 @@ function var_decl_handler(node) {
 function expr_stmnt_handler(expr) {
     node_handler(expr.expression);
 }
+
 function assignment_expr_handler(node) {
     records.push(new Record(node.loc.start.line, node.type, node.left.name, null, node_to_string(node.right)));
 }
-
-// function expr_handler_to_string(expr) {
-//     expr.type === 'Literal' ? expr.value.toString() : expr.type === 'Identifier' ? expr.name :
-//         // expr.type === 'BinaryExpression' ? expr_handler_to_string(expr.left) + expr.operator + expr_handler_to_string(expr.right) : null;
-//         expr.type === 'BinaryExpression' ? node_to_string(expr) : null;
-// }
 
 function for_stmnt_handler(node) {
     records.push(new Record(node.loc.start.line, node.type, null, node_to_string(node.test), null));
@@ -89,11 +80,6 @@ function else_if_stmnt_handler(node) {
     node.alternate ? node.alternate.type === 'IfStatement' ? else_if_stmnt_handler(node.alternate):
         node_handler(node.alternate) : null;
 }
-
-// function else_stmnt_handler(node) {
-//     records.push(new Record(node.loc.start.line, 'ElseStatement', null, null, null));
-//     node_handler(node.consequent.expression);
-// }
 
 function return_stmnt_handler(node) {
     records.push(new Record(node.loc.start.line, node.type, null, null, node_to_string(node.argument)));
