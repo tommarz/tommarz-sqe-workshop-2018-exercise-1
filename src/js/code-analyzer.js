@@ -33,10 +33,6 @@ function node_handler(node) {
     handler ? handler(node) : null;
 }
 
-// function identifier_handler(node) {
-//     records.push(new Record(node.loc.start.line, node.type, node.name, null, null));
-// }
-
 function func_decl_handler(node) {
     records.push(new Record(node.loc.start.line, node.type, node.id.name, null, null));
     node.params.forEach(p => records.push(new Record(p.loc.start.line, 'VariableDeclaration', p.name, null, null)));
@@ -88,9 +84,5 @@ function return_stmnt_handler(node) {
 function block_stmnt_handler(block) {
     block.body.forEach(node => node_handler(node));
 }
-
-// function update_expr_handler(node) {
-//     records.push(new Record(node.loc.start.line, node.type, ))
-// }
 
 export {parseCode, ast_handler, node_to_string};
