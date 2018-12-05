@@ -20,7 +20,7 @@ let records;
 let typeToHandlerMap = {'AssignmentExpression': assignment_expr_handler,
     'FunctionDeclaration' : func_decl_handler, 'VariableDeclaration' : var_decl_handler, 'IfStatement' : if_stmnt_handler,
     'WhileStatement': while_stmnt_handler, 'ForStatement':for_stmnt_handler, 'ReturnStatement' : return_stmnt_handler,
-    'BlockStatement' : block_stmnt_handler, 'ExpressionStatement':expr_stmnt_handler};
+    'BlockStatement' : block_stmnt_handler, 'ExpressionStatement':expr_stmnt_handler, 'UpdateExpression':update_expr_handler};
 
 function ast_handler(ast) {
     records = [];
@@ -48,7 +48,7 @@ function expr_stmnt_handler(expr) {
 }
 
 function assignment_expr_handler(node) {
-    records.push(new Record(node.loc.start.line, node.type, node.left.name, null, node_to_string(node.right)));
+    records.push(new Record(node.loc.start.line, node.type, node_to_string(node.left), null, node_to_string(node.right)));
 }
 
 function for_stmnt_handler(node) {
@@ -85,4 +85,7 @@ function block_stmnt_handler(block) {
     block.body.forEach(node => node_handler(node));
 }
 
+function update_expr_handler(node) {
+    records.push(new Record(node.loc.start.line, node.type, node_to_string(node.argument), null,  node_to_string(node)));
+}
 export {parseCode, ast_handler, node_to_string};
