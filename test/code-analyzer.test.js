@@ -72,10 +72,10 @@ describe('The javascript parser', ()=> {
 
 describe('The javascript parser', ()=> {
     it('is parsing a for statement correctly', ()=>{
-        assert.deepEqual(ast_handler(parseCode('for(i=0; i<5; i=i++){\nx=x*2;\n}\n')),
+        assert.deepEqual(ast_handler(parseCode('for(i=0; i<5; i++){\nx=x*2;\n}\n')),
             [{line : 1, type:'ForStatement', name:null, cond:'i < 5', val:null},
                 {line:1, type:'AssignmentExpression', name:'i', cond:null, val:'0'},
-                {line:1, type:'AssignmentExpression', name:'i', cond:null, val:'i++'},
+                {line:1, type:'UpdateExpression', name:'i', cond:null, val:'i++'},
                 {line:2, type:'AssignmentExpression', name:'x', cond:null, val:'x * 2'}]);
     });
     it('is stringifying assignment expression correctly', ()=> {
